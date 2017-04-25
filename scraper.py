@@ -5,25 +5,25 @@ import requests
 
 
 # http://www.railwaycodes.org.uk/crs/CRS0.shtm
-LOCATIONS = [
-    'COLTONJ',
-]
-
-INTERESTING_STATIONS = [
-    'Doncaster West Yard',
-    'Holbeck Loco Sidings',
-    'Royal Mail',
-    'Shields T.M.D.',
-    'York Thrall Europa',
-]
+LOCATIONS = {
+    'COLTONJ': {
+        'STATIONS': [
+            'Doncaster West Yard',
+            'Holbeck Loco Sidings',
+            'Royal Mail',
+            'Shields T.M.D.',
+            'York Thrall Europa',
+        ]
+    }
+}
 
 
 def log(message):
     print(message)
 
 
-def is_interesting(train_params):
-    for station in INTERESTING_STATIONS:
+def is_interesting(train_params, determinants):
+    for station in determinants['STATIONS']:
         if station in train_params['origin'] or station in train_params['destination']:
             return True
 
@@ -31,7 +31,7 @@ def is_interesting(train_params):
 def main():
     interesting = {}
 
-    for location in LOCATIONS:
+    for location, determinants in LOCATIONS.items():
         interesting[location] = []
 
         url = 'http://www.realtimetrains.co.uk/search/advanced/{location}/' \
@@ -53,14 +53,14 @@ def main():
             column_values = [c.string for c in columns]
             train_params = {
                 'arrival': column_values[1],
-                'origin': column_values[3],
+                'origin': column_values[3] or '',
                 'headcode': column_values[5],
                 'toc': column_values[6],
-                'destination': column_values[7],
+                'destination': column_values[7] or '',
                 'departure': column_values[8],
             }
 
-            if is_interesting(train_params):
+            if is_interesting(train_params, determinants):
                 interesting[location].append(train_params)
 
     import pprint
