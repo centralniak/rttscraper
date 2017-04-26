@@ -1,10 +1,12 @@
 import datetime
 import fnmatch
+import json
 import os
 import sys
 
 from bs4 import BeautifulSoup
 from jinja2 import Template
+from postmarker.core import PostmarkClient
 import requests
 
 
@@ -67,6 +69,8 @@ def is_interesting(train_params, determinants):
 
 
 def main():
+    config = json.load(open(sys.argv[1]))
+
     interesting = {}
 
     for location, determinants in LOCATIONS.items():
@@ -103,7 +107,14 @@ def main():
 
     template_location = os.path.join(os.path.dirname(__file__), 'template.html')
     template_code = open(template_location).read()
-    sys.stdout.write(Template(template_code).render(locations=interesting))
+    html = Template(template_code).render(locations=interesting)
+    postmark = PostmarkClient(server_token=config['postmark_api_token'])
+    postmark.emails.send(
+        From=config['email_from'],
+        To=config['email_to'],
+        Subject=config['email_subject'],
+        HtmlBody=html
+    )
 
 
 if __name__ == '__main__':
