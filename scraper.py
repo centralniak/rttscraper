@@ -1,30 +1,68 @@
 import datetime
+import fnmatch
+import os
+import sys
 
 from bs4 import BeautifulSoup
+from jinja2 import Template
 import requests
+
+
+COMMONS = {
+    'HEADCODES': [
+        '3???',
+        '7???',
+        '8???',
+        '9???',
+        '0???',
+        '?Q??',
+        '?X??',
+        '?Z??',
+    ],
+    'STATIONS': [
+        'Carnforth Steamtown',
+    ]
+}
 
 
 # http://www.railwaycodes.org.uk/crs/CRS0.shtm
 LOCATIONS = {
-    'COLTONJ': {
+    'COLTONJ': {  # Colton Jn
+        'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': [
             'Doncaster West Yard',
-            'Holbeck Loco Sidings',
             'Royal Mail',
             'Shields T.M.D.',
             'York Thrall Europa',
-        ]
+        ] + COMMONS['STATIONS']
+    },
+    'CRNFSTM': {  # Carnforth Steamtown
+        'STATIONS': [
+            'Starts here',
+            'Terminates here',
+        ] + COMMONS['STATIONS'],
+    },
+    'MALTBTH': {  # Barton Hill
+        'HEADCODES': COMMONS['HEADCODES'],
+        'STATIONS': COMMONS['STATIONS'],
+        'TOCS': ['ZZ']
     }
 }
 
 
 def log(message):
-    print(message)
+    sys.stderr.write(message)
 
 
 def is_interesting(train_params, determinants):
-    for station in determinants['STATIONS']:
+    for station in determinants.get('STATIONS', []):
         if station in train_params['origin'] or station in train_params['destination']:
+            return True
+    for toc in determinants.get('TOCS', []):
+        if toc == train_params['toc']:
+            return True
+    for headcode in determinants.get('HEADCODES', []):
+        if fnmatch.fnmatch(train_params['headcode'], headcode):
             return True
 
 
@@ -43,7 +81,7 @@ def main():
         soup = BeautifulSoup(response.text, 'html.parser')
         trains = soup.find_all('tr')
 
-        log('Found {count} trains for {location}'.format(count=len(trains), location=location))
+        log('Found {count} trains for {location}\n'.format(count=len(trains), location=location))
 
         for train in trains:
             columns = train.find_all('td')
@@ -63,8 +101,9 @@ def main():
             if is_interesting(train_params, determinants):
                 interesting[location].append(train_params)
 
-    import pprint
-    pprint.pprint(interesting)
+    template_location = os.path.join(os.path.dirname(__file__), 'template.html')
+    template_code = open(template_location).read()
+    sys.stdout.write(Template(template_code).render(locations=interesting))
 
 
 if __name__ == '__main__':

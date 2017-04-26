@@ -1,0 +1,16 @@
+<html>
+    <body>
+        <div style="font-family: monospace;">
+            {% for location in locations %}
+                {{ location }}<br>
+                --------------------------------------------------------------------------------<br>
+                {% for train in locations[location] %}
+                    {{ train.arrival }} / {{ train.departure }}
+                    {{ train.toc }} {{ train.headcode }} {{ train.origin }} to {{ train.destination }}
+                    <br>
+                {% endfor %}
+                <br>
+            {% endfor %}
+        </div>
+    </body>
+</html>
