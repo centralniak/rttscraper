@@ -12,7 +12,6 @@ import requests
 
 COMMONS = {
     'HEADCODES': [
-        '3???',
         '7???',
         '8???',
         '9???',
@@ -23,6 +22,10 @@ COMMONS = {
     ],
     'STATIONS': [
         'Carnforth Steamtown',
+        'York N.R.M.',
+    ],
+    'TOCS': [
+        'WR',
     ]
 }
 
@@ -36,7 +39,8 @@ LOCATIONS = {
             'Royal Mail',
             'Shields T.M.D.',
             'York Thrall Europa',
-        ] + COMMONS['STATIONS']
+        ] + COMMONS['STATIONS'],
+        'TOCS': COMMONS['TOCS'],
     },
     'CRNFSTM': {  # Carnforth Steamtown
         'STATIONS': [
@@ -47,7 +51,12 @@ LOCATIONS = {
     'MALTBTH': {  # Barton Hill
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
-        'TOCS': ['ZZ']
+        'TOCS': ['ZZ'] + COMMONS['TOCS'],
+    },
+    'LDS': {  # Leeds
+        'HEADCODES': COMMONS['HEADCODES'],
+        'STATIONS': COMMONS['STATIONS'],
+        'TOCS': COMMONS['TOCS'],
     }
 }
 
@@ -57,6 +66,8 @@ def log(message):
 
 
 def is_interesting(train_params, determinants):
+    if train_params['actual'] == 'Cancel':
+        return False
     for station in determinants.get('STATIONS', []):
         if station in train_params['origin'] or station in train_params['destination']:
             return True
