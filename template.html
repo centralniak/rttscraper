@@ -3,13 +3,19 @@
         <div style="font-family: monospace;">
             {% for location in locations %}
                 {{ location }}<br>
-                --------------------------------------------------------------------------------<br>
+                =========================================<br>
                 {% for train in locations[location] %}
-                    {{ train.arrival }} / {{ train.departure }}
-                    {{ train.toc }} {{ train.headcode }} {{ train.origin }} to {{ train.destination }}
+                    {{ train.arrival }}/{{ train.departure }}
+                    act {{ train.actual }}
+                    {{ train.toc }}
+                    <a href="http://www.realtimetrains.co.uk/{{ train.link }}">{{ train.headcode }}</a>
+                    {{ train.origin }} to {{ train.destination }}
                     <br>
+                    {{ '; '.join(train.service_details) }}
+                    <br>
+                    ------------------------------------------------------------<br>
                 {% endfor %}
-                <br>
+                <br><br>
             {% endfor %}
         </div>
     </body>

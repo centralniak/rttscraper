@@ -92,29 +92,44 @@ def main():
             if not columns:
                 continue
 
-            column_values = [c.string for c in columns]
-            train_params = {
-                'arrival': column_values[1],
-                'origin': column_values[3] or '',
-                'headcode': column_values[5],
-                'toc': column_values[6],
-                'destination': column_values[7] or '',
-                'departure': column_values[8],
-            }
+            try:
+                column_values = [c.get_text() for c in columns]
+                train_params = {
+                    'arrival': column_values[1],
+                    'origin': column_values[3] or '',
+                    'headcode': column_values[5],
+                    'toc': column_values[6],
+                    'destination': column_values[7] or '',
+                    'departure': column_values[8],
+                    'actual': column_values[9],
+                    'link': train.find('a').get('href'),
+                }
+            except Exception as exc:
+                log('Unable to parse {} - {}'.format(columns, exc))
 
             if is_interesting(train_params, determinants):
+                url = 'http://www.realtimetrains.co.uk/{link}'.format(link=train_params['link'])
+                response = requests.get(url)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                service_details = [
+                    s.get_text() for s in
+                    soup.select('.detailed-schedule-info')[0].find_all('ul')[1].find_all('li')
+                ]
+                train_params['service_details'] = service_details
                 interesting[location].append(train_params)
 
     template_location = os.path.join(os.path.dirname(__file__), 'template.html')
     template_code = open(template_location).read()
     html = Template(template_code).render(locations=interesting)
     postmark = PostmarkClient(server_token=config['postmark_api_token'])
-    postmark.emails.send(
+    email = postmark.emails.Email(
         From=config['email_from'],
         To=config['email_to'],
         Subject=config['email_subject'],
         HtmlBody=html
     )
+    email.attach_binary(content=bytes(html, 'utf-8'), filename='rttscraper.html')
+    email.send()
 
 
 if __name__ == '__main__':
