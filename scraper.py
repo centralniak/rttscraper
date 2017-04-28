@@ -95,6 +95,8 @@ def is_interesting(train_params, determinants):
 
 def main():
     config = json.load(open(sys.argv[1]))
+    timedelta = datetime.timedelta(days=int(sys.argv[2]) if len(sys.argv) > 2 else 0)
+    date = datetime.date.today() + timedelta
 
     interesting = {}
 
@@ -103,7 +105,7 @@ def main():
 
         url = 'http://www.realtimetrains.co.uk/search/advanced/{location}/' \
               '{today.year}/{today.month:02d}/{today.day:02d}/0000-2359?stp=WVS&show=all&order=wtt'.format(
-            location=location, today=datetime.date.today(),
+            location=location, today=date,
         )
         response = requests.get(url)
 
@@ -150,7 +152,7 @@ def main():
     email = postmark.emails.Email(
         From=config['email_from'],
         To=config['email_to'],
-        Subject=config['email_subject'],
+        Subject='rttscraper digest for {today.year}/{today.month:02d}/{today.day:02d}'.format(today=date),
         HtmlBody=html
     )
     email.attach_binary(content=bytes(html, 'utf-8'), filename='rttscraper.html')

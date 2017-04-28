@@ -14,6 +14,8 @@
                     {{ '; '.join(train.service_details) }}
                     <br>
                     ------------------------------------------------------------<br>
+                {% else %}
+                No services found.<br>
                 {% endfor %}
                 <br><br>
             {% endfor %}
