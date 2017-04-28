@@ -22,6 +22,7 @@ COMMONS = {
     ],
     'STATIONS': [
         'Carnforth Steamtown',
+        'Royal Mail',
         'York N.R.M.',
     ],
     'TOCS': [
@@ -43,7 +44,9 @@ LOCATIONS = {
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': [
             'Doncaster West Yard',
-            'Royal Mail',
+            'Jarrow Shell',
+            'Northallerton',
+            'Parcels',
             'Shields T.M.D.',
         ] + COMMONS['STATIONS'],
         'TOCS': COMMONS['TOCS'],
@@ -53,6 +56,11 @@ LOCATIONS = {
             'Starts here',
             'Terminates here',
         ] + COMMONS['STATIONS'],
+    },
+    'GLH': {  # Glasshoughton (for Prince of Wales SB in Pontefract)
+        'HEADCODES': COMMONS['HEADCODES'],
+        'STATIONS': COMMONS['STATIONS'],
+        'TOCS': ['ZZ'] + COMMONS['TOCS'],
     },
     'MALTBTH': {  # Barton Hill
         'HEADCODES': COMMONS['HEADCODES'],
