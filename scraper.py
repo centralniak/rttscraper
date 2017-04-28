@@ -25,6 +25,13 @@ COMMONS = {
         'York N.R.M.',
     ],
     'TOCS': [
+        'CS',
+        'GC',
+        'HT',
+        'LN',
+        'LR',
+        'NY',
+        'SP',
         'WR',
     ]
 }
@@ -38,7 +45,6 @@ LOCATIONS = {
             'Doncaster West Yard',
             'Royal Mail',
             'Shields T.M.D.',
-            'York Thrall Europa',
         ] + COMMONS['STATIONS'],
         'TOCS': COMMONS['TOCS'],
     },
