@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import fnmatch
 import json
@@ -23,6 +24,7 @@ COMMONS = {
     'STATIONS': [
         'Carnforth Steamtown',
         'Royal Mail',
+        'Tesco',
         'York N.R.M.',
     ],
     'TOCS': [
@@ -34,6 +36,7 @@ COMMONS = {
         'NY',
         'SP',
         'WR',
+        'ZZ',
     ]
 }
 
@@ -43,13 +46,17 @@ LOCATIONS = {
     'COLTONJ': {  # Colton Jn
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': [
+            'Daventry Drs',
             'Doncaster West Yard',
             'Jarrow Shell',
+            'Leicester',
+            'Micklefield',
             'Northallerton',
             'Parcels',
             'Shields T.M.D.',
+            'Sinfin',
         ] + COMMONS['STATIONS'],
-        'TOCS': COMMONS['TOCS'],
+        'TOCS': COMMONS['TOCS'][:-1],
     },
     'CRNFSTM': {  # Carnforth Steamtown
         'STATIONS': [
@@ -60,17 +67,17 @@ LOCATIONS = {
     'GLH': {  # Glasshoughton (for Prince of Wales SB in Pontefract)
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
-        'TOCS': ['ZZ'] + COMMONS['TOCS'],
+        'TOCS': COMMONS['TOCS'],
     },
     'MALTBTH': {  # Barton Hill
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
-        'TOCS': ['ZZ'] + COMMONS['TOCS'],
+        'TOCS': COMMONS['TOCS'],
     },
     'LDS': {  # Leeds
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
-        'TOCS': COMMONS['TOCS'],
+        'TOCS': COMMONS['TOCS'][:-1],
     }
 }
 
@@ -94,13 +101,26 @@ def is_interesting(train_params, determinants):
 
 
 def main():
-    config = json.load(open(sys.argv[1]))
-    timedelta = datetime.timedelta(days=int(sys.argv[2]) if len(sys.argv) > 2 else 0)
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-c, --config', dest='config', help='path of the config file')
+    arg_parser.add_argument('-d, --days', default=0, type=int, dest='days',
+                            help='days from today to generate report for, e.g. +1 is tomorrow')
+    arg_parser.add_argument('locations', default=[], type=str, nargs='*',
+                            help='list of locations to generate a report for')
+    args = arg_parser.parse_args()
+
+    config = json.load(open(args.config))
+    timedelta = datetime.timedelta(days=args.days)
     date = datetime.date.today() + timedelta
 
     interesting = {}
 
-    for location, determinants in LOCATIONS.items():
+    for location in args.locations or LOCATIONS:
+
+        print(location)
+
+        determinants = LOCATIONS.get(location, COMMONS)
+
         interesting[location] = []
 
         url = 'http://www.realtimetrains.co.uk/search/advanced/{location}/' \
@@ -152,7 +172,8 @@ def main():
     email = postmark.emails.Email(
         From=config['email_from'],
         To=config['email_to'],
-        Subject='rttscraper digest for {today.year}/{today.month:02d}/{today.day:02d}'.format(today=date),
+        Subject='rttscraper digest for {today.year}/{today.month:02d}/{today.day:02d} {locations}'.format(
+            today=date, locations=', '.join(interesting.keys())),
         HtmlBody=html
     )
     email.attach_binary(content=bytes(html, 'utf-8'), filename='rttscraper.html')
