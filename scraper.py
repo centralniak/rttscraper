@@ -23,6 +23,7 @@ COMMONS = {
     ],
     'STATIONS': [
         'Carnforth Steamtown',
+        'Network Rail',
         'Royal Mail',
         'Tesco',
         'York N.R.M.',
@@ -64,21 +65,18 @@ LOCATIONS = {
             'Terminates here',
         ] + COMMONS['STATIONS'],
     },
-    'GLH': {  # Glasshoughton (for Prince of Wales SB in Pontefract)
-        'HEADCODES': COMMONS['HEADCODES'],
-        'STATIONS': COMMONS['STATIONS'],
-        'TOCS': COMMONS['TOCS'],
-    },
-    'MALTBTH': {  # Barton Hill
-        'HEADCODES': COMMONS['HEADCODES'],
-        'STATIONS': COMMONS['STATIONS'],
-        'TOCS': COMMONS['TOCS'],
-    },
+    'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
+    'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
+    'HAMBLNJ': COMMONS,  # Hambleton North Jn
+    'HAMBLWJ': COMMONS,  # Hambleton West Jn
+    'MALTBTH': COMMONS,  # Barton Hill
+    'MILFDY': COMMONS,  # Milford Jn
     'LDS': {  # Leeds
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
         'TOCS': COMMONS['TOCS'][:-1],
-    }
+    },
+    'MIK': COMMONS,  # Micklefield
 }
 
 
@@ -116,9 +114,6 @@ def main():
     interesting = {}
 
     for location in args.locations or LOCATIONS:
-
-        print(location)
-
         determinants = LOCATIONS.get(location, COMMONS)
 
         interesting[location] = []
