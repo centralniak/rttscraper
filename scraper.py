@@ -59,12 +59,6 @@ LOCATIONS = {
         ] + COMMONS['STATIONS'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
-    'CRNFSTM': {  # Carnforth Steamtown
-        'STATIONS': [
-            'Starts here',
-            'Terminates here',
-        ] + COMMONS['STATIONS'],
-    },
     'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
     'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
     'HAMBLNJ': COMMONS,  # Hambleton North Jn
@@ -77,6 +71,13 @@ LOCATIONS = {
         'TOCS': COMMONS['TOCS'][:-1],
     },
     'MIK': COMMONS,  # Micklefield
+    'SHD': COMMONS,  # Shildon (for Shildon NRM),
+    'YORKNRM': {  # York NRM
+        'STATIONS': [
+            'Starts here',
+            'Terminates here',
+        ] + COMMONS['STATIONS'],
+    },
 }
 
 
