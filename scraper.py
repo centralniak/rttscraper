@@ -164,16 +164,20 @@ def main():
     template_location = os.path.join(os.path.dirname(__file__), 'template.html')
     template_code = open(template_location).read()
     html = Template(template_code).render(locations=interesting)
-    postmark = PostmarkClient(server_token=config['postmark_api_token'])
-    email = postmark.emails.Email(
-        From=config['email_from'],
-        To=config['email_to'],
-        Subject='rttscraper digest for {today.year}/{today.month:02d}/{today.day:02d} {locations}'.format(
-            today=date, locations=', '.join(interesting.keys())),
-        HtmlBody=html
+    requests.post(
+        'https://api.mailgun.net/v3/{}/messages'.format(config['mailgun_domain']),
+        auth=('api', config['mailgun_apikey']),
+        data={
+            'from': config['email_from'],
+            'to': config['email_to'],
+            'subject': 'rttscraper digest for {today.year}/{today.month:02d}/{today.day:02d} {locations}'.format(
+                today=date, locations=', '.join(sorted(interesting.keys()))),
+            'html': html,
+        },
+        files={
+            'attachment': ('rttscraper.html', html, 'text/html'),
+        }
     )
-    email.attach_binary(content=bytes(html, 'utf-8'), filename='rttscraper.html')
-    email.send()
 
 
 if __name__ == '__main__':
