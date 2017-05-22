@@ -112,6 +112,11 @@ def main():
     timedelta = datetime.timedelta(days=args.days)
     date = datetime.date.today() + timedelta
 
+    assert config.get('email_from')
+    assert config.get('email_to')
+    assert config.get('mailgun_domain')
+    assert config.get('mailgun_apikey')
+
     interesting = {}
 
     for location in args.locations or LOCATIONS:
