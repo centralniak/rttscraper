@@ -23,8 +23,10 @@ COMMONS = {
         '0C53',
     ],
     'STATIONS': [
+        'Birmingham International',
         'Carnforth Steamtown',
         'Network Rail'
+        'London Victoria',
         'L.I.P.',
         'Litchurch Lane',
         'Royal Mail',
@@ -67,7 +69,11 @@ LOCATIONS = {
     'HAMBLNJ': COMMONS,  # Hambleton North Jn
     'HAMBLWJ': COMMONS,  # Hambleton West Jn
     'MALTBTH': COMMONS,  # Barton Hill
-    'MILFDY': COMMONS,  # Milford Jn
+    'MILFDY': {  # Milford Jn
+        'HEADCODES': COMMONS['HEADCODES'],
+        'STATIONS': COMMONS['STATIONS'],
+        'TOCS': COMMONS['TOCS'][:-1],
+    },
     'LDS': {  # Leeds
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
