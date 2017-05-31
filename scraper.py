@@ -7,7 +7,6 @@ import sys
 
 from bs4 import BeautifulSoup
 from jinja2 import Template
-from postmarker.core import PostmarkClient
 import requests
 
 
@@ -32,6 +31,9 @@ COMMONS = {
         'Royal Mail',
         'Tesco',
         'York N.R.M.',
+    ],
+    'TIMETABLES': [
+        'STP',
     ],
     'TOCS': [
         'CS',
@@ -62,6 +64,7 @@ LOCATIONS = {
             'Shields T.M.D.',
             'Sinfin',
         ] + COMMONS['STATIONS'],
+        'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
     'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
@@ -72,11 +75,13 @@ LOCATIONS = {
     'MILFDY': {  # Milford Jn
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
+        'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
     'LDS': {  # Leeds
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
+        'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
     'MIK': COMMONS,  # Micklefield
@@ -97,6 +102,8 @@ def log(message):
 def is_interesting(train_params, determinants):
     if train_params['actual'] == 'Cancel':
         return False
+    if train_params['timetable'] in determinants.get('TIMETABLES', []):
+        return True
     for station in determinants.get('STATIONS', []):
         if station in train_params['origin'] or station in train_params['destination']:
             return True
@@ -152,6 +159,7 @@ def main():
             try:
                 column_values = [c.get_text() for c in columns]
                 train_params = {
+                    'timetable': column_values[0],
                     'arrival': column_values[1],
                     'origin': column_values[3] or '',
                     'headcode': column_values[5],
