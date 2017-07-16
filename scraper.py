@@ -20,26 +20,11 @@ COMMONS = {
         '?X??',
         '?Z??',
 
-        '0C53',
+        '6N11',
         '4E23',
         '4L84',
-        '4O90',
-        '6C89',
-        '6D13',
-        '6D31',
-        '6D34',
-        '6D73',
-        '6E32',
-        '6E38',
-        '6E46',
-        '6E54',
-        '6E59',
-        '6E82',
-        '6E92',
-        '6M00',
-        '6M24',
-        '6M57',
-        '6V70',
+        '4S89',
+        '6J37',
     ],
     'STATIONS': [
         'Birmingham International',
@@ -91,7 +76,7 @@ LOCATIONS = {
     'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
     'HAMBLNJ': COMMONS,  # Hambleton North Jn
     'HAMBLWJ': COMMONS,  # Hambleton West Jn
-    'MALTBTH': COMMONS,  # Barton Hill
+    'MLT': COMMONS,  # Malton
     'MILFDY': {  # Milford Jn
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
