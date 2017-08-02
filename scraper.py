@@ -72,24 +72,26 @@ LOCATIONS = {
         'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
-    'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
-    'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
-    'HAMBLNJ': COMMONS,  # Hambleton North Jn
-    'HAMBLWJ': COMMONS,  # Hambleton West Jn
-    'MLT': COMMONS,  # Malton
-    'MILFDY': {  # Milford Jn
-        'HEADCODES': COMMONS['HEADCODES'],
-        'STATIONS': COMMONS['STATIONS'],
-        'TIMETABLES': COMMONS['TIMETABLES'],
-        'TOCS': COMMONS['TOCS'][:-1],
-    },
+    # 'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
+    'GRF': COMMONS,  # Garforth
+    # 'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
+    # 'HAMBLNJ': COMMONS,  # Hambleton North Jn
+    # 'HAMBLWJ': COMMONS,  # Hambleton West Jn
+    'HGT': COMMONS,  # Harrogate
+    # 'MILFDY': {  # Milford Jn
+    #     'HEADCODES': COMMONS['HEADCODES'],
+    #     'STATIONS': COMMONS['STATIONS'],
+    #     'TIMETABLES': COMMONS['TIMETABLES'],
+    #     'TOCS': COMMONS['TOCS'][:-1],
+    # },
     'LDS': {  # Leeds
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': COMMONS['STATIONS'],
         'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
-    'MIK': COMMONS,  # Micklefield
+    'MLT': COMMONS,  # Malton
+    'NRT': COMMONS,  # Northallerton (for Wensleydale Railway)
     'SHD': COMMONS,  # Shildon (for Shildon NRM),
     'YORKNRM': {  # York NRM
         'STATIONS': [
