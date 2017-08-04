@@ -73,7 +73,6 @@ LOCATIONS = {
         'TOCS': COMMONS['TOCS'][:-1],
     },
     # 'GLH': COMMONS,  # Glasshoughton (for Prince of Wales SB in Pontefract)
-    'GRF': COMMONS,  # Garforth
     # 'GSCGNWJ': COMMONS,  # Gascoine Wood Jn
     # 'HAMBLNJ': COMMONS,  # Hambleton North Jn
     # 'HAMBLWJ': COMMONS,  # Hambleton West Jn
@@ -90,6 +89,7 @@ LOCATIONS = {
         'TIMETABLES': COMMONS['TIMETABLES'],
         'TOCS': COMMONS['TOCS'][:-1],
     },
+    'MIK': COMMONS,  # Micklefield (for Garforth)
     'MLT': COMMONS,  # Malton
     'NRT': COMMONS,  # Northallerton (for Wensleydale Railway)
     'SHD': COMMONS,  # Shildon (for Shildon NRM),
