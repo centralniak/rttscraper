@@ -151,7 +151,7 @@ def main():
               '{today.year}/{today.month:02d}/{today.day:02d}/0000-2359?stp=WVS&show=all&order=wtt'.format(
             location=location, today=date,
         )
-        response = requests.get(url)
+        response = requests.get(url, timeout=5)
 
         soup = BeautifulSoup(response.text, 'html.parser')
         trains = soup.find_all('tr')
@@ -181,7 +181,7 @@ def main():
 
             if is_interesting(train_params, determinants):
                 url = 'http://www.realtimetrains.co.uk/{link}'.format(link=train_params['link'])
-                response = requests.get(url)
+                response = requests.get(url, timeout=5)
                 soup = BeautifulSoup(response.text, 'html.parser')
                 service_details = [
                     s.get_text() for s in
