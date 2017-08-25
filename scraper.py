@@ -109,6 +109,8 @@ def log(message):
 def is_interesting(train_params, determinants):
     if train_params['actual'] == 'Cancel':
         return False
+    if train_params['headcode'] == 'BUS':
+        return False
     if train_params['timetable'] in determinants.get('TIMETABLES', []):
         return True
     for station in determinants.get('STATIONS', []):
