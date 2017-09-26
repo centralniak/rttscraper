@@ -56,6 +56,7 @@ COMMONS = {
 
 # http://www.railwaycodes.org.uk/crs/CRS0.shtm
 LOCATIONS = {
+    'ARCQGF': COMMONS,  # Arcow Quarry
     'COLTONJ': {  # Colton Jn
         'HEADCODES': COMMONS['HEADCODES'],
         'STATIONS': [
@@ -92,7 +93,9 @@ LOCATIONS = {
     'MIK': COMMONS,  # Micklefield (for Garforth)
     'MLT': COMMONS,  # Malton
     'NRT': COMMONS,  # Northallerton (for Wensleydale Railway)
+    'RIBLHVQ': COMMONS,  # Ribblehead Virtual Quarry
     'SHD': COMMONS,  # Shildon (for Shildon NRM),
+    'SKPTSNJ': COMMONS,  # Skipton Down Shipley Slow (for Rylston Quarry)
     'YORKNRM': {  # York NRM
         'STATIONS': [
             'Starts here',
