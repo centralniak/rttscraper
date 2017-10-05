@@ -92,7 +92,7 @@ LOCATIONS = {
     },
     'MIK': COMMONS,  # Micklefield (for Garforth)
     'MLT': COMMONS,  # Malton
-    'NRT': COMMONS,  # Northallerton (for Wensleydale Railway)
+    'NTR': COMMONS,  # Northallerton (for Wensleydale Railway)
     'RIBLHVQ': COMMONS,  # Ribblehead Virtual Quarry
     'SHD': COMMONS,  # Shildon (for Shildon NRM),
     'SKPTSNJ': COMMONS,  # Skipton Down Shipley Slow (for Rylston Quarry)
