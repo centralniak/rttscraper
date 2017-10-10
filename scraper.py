@@ -27,9 +27,9 @@ COMMONS = {
         '6J37',
     ],
     'STATIONS': [
-        'Birmingham International',
         'Carnforth Steamtown',
-        'Network Rail'
+        'Craigentinny',
+        'Network Rail',
         'London Victoria',
         'L.I.P.',
         'Litchurch Lane',
