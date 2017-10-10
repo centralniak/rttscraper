@@ -110,7 +110,7 @@ def log(message):
 
 
 def is_interesting(train_params, determinants):
-    if train_params['actual'] == 'Cancel':
+    if train_params['actual'] in ('Cancel', '(Q)'):
         return False
     if train_params['headcode'] == 'BUS':
         return False
