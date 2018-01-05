@@ -42,7 +42,6 @@ COMMONS = {
     ],
     'TOCS': [
         'CS',
-        'GC',
         'HT',
         'LN',
         'LR',
